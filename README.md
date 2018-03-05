@@ -1,3 +1,3 @@
 # 1-sqrta
 1-sqrta created by GitHub Classroom
-lab01
+lab01 done
