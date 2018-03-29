@@ -9,7 +9,7 @@
 然后执行命令<br>
 git clone https://github.com/mengning/menu.git<br>
 cd menu<br>
-gcc -o init linktable.c menu.c test.c -m32 -static –lpthread<br>
+gcc -Wall -pthread -o init linktable.c menu.c test.c -m32 -static<br>
 （这一步一般会有很多编译报错，安装gcc-multillib解决）<br>
 cd ../rootfs <br>
 cp ../menu/init ./ <br>
@@ -40,4 +40,11 @@ target remote:1234<br>
 
 ### 2.set_task_stack_end_magic(&init_task)函数
 创建了0号进程，即最终的idle进程，运行在内核态，是系统创建的第一个进程，并且会通过kernel_thread创建1号进程init，init进程是所有其他用户进程的祖先
+
+中间追踪到的一些函数
+lockdep_init();
+启动了用来防止死锁的lockdep<br>
+
+rest_init();
+创建了第一个用户进程init，并且定义了整形pid作为进程的序号<br>
 
