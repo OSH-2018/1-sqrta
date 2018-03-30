@@ -10,7 +10,7 @@
 git clone https://github.com/mengning/menu.git<br>
 cd menu<br>
 gcc -Wall -pthread -o init linktable.c menu.c test.c -m32 -static<br>
-（这一步一般会有很多编译报错，安装gcc-multilib解决）<br>
+（这一步一般会有很多编译报错，安装apt install gcc-multilib解决）<br>
 cd ../rootfs <br>
 (自行建立储存文件夹）<br>
 cp ../menu/init ./ <br>
@@ -22,6 +22,7 @@ find . | cpio -o -Hnewc |gzip -9 > ../rootfs.img <br>
 然后make 编译<br>
 编译过程可能会发生缺少compiler-gcc7.h（或者其他数字）
 找到compiler-gcc5.h在同一个地方复制一份改名即可<br>
+还可能缺少各种库比如ncurses等，在网上找相应名字安装<br>
 
 ### 3.启动追踪内核
 将rootfs.img移动到内核文件夹，安装qemu,gdb<br>
