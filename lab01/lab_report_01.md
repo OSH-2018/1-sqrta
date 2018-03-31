@@ -27,7 +27,7 @@ find . | cpio -o -Hnewc |gzip -9 > ../rootfs.img <br>
 ### 3.启动追踪内核
 将rootfs.img移动到内核文件夹，安装qemu,gdb<br>
 在终端内输入命令<br>
-qemu -kernel linux-3.18.6/arch/x86/boot/bzImage -initrd rootfs.img -s -S<br>
+qemu -kernel arch/x86/boot/bzImage -initrd rootfs.img -s -S<br>
 会得到qemu启动并且冻结在开始状态<br>
 在另一个终端中输入<br>
 gdb<br>
