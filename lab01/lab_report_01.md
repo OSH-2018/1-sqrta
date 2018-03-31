@@ -38,6 +38,8 @@ target remote:1234<br>
 成功将gdb与qemu连接上，按下c可以使操作系统继续运行<br>
 由于设置断点会在中途停下来，按c可以继续，list可以查看中间运行过的函数
 
+![成功在qemu中啓動內核](https://github.com/OSH-2018/1-sqrta/blob/master/lab01/%E9%80%89%E5%8C%BA_001.png)
+
 ## 实验结果：
 追踪到的重要事件：
 ### 1. 函数start_kernel()的执行。
