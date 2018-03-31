@@ -17,7 +17,7 @@ cd ../rootfs <br>
 cp ../menu/init ./ <br>
 find . | cpio -o -Hnewc |gzip -9 > ../rootfs.img <br>
 然后就得到了rootfs.img文件，已在github中上传 <br>
-成功過一次後之後再次使用qemu仿真有時候會卡住，顯示kernel block，重新做一次rootfs.img就可以了（我也不知道爲什麼。。。）
+成功过一次之够再次用qemu仿真是有时候会卡住，重新做一次rootfs.img就可以了（我也不知道为什么。。。。）<br>
 
 ### 2.下载并编译内核，下载的linux内核版本为linux-3.18.23
 解压后使用 make menuconfig 配置内核，将kernel hacking中的compiler设置中将compile the kernel with debug info选中
@@ -39,7 +39,7 @@ target remote:1234<br>
 成功将gdb与qemu连接上，按下c可以使操作系统继续运行<br>
 由于设置断点会在中途停下来，按c可以继续，list可以查看中间运行过的函数
 
-成功在qemu中啓動內核
+**成功在qemu中启动內核**
 ![](https://github.com/OSH-2018/1-sqrta/blob/master/lab01/%E9%80%89%E5%8C%BA_001.png)
 
 ## 实验结果：
