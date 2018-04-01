@@ -81,5 +81,67 @@ start_kernel主要包括了 获取内核启动时的参数并进行处理，内�
 
 #### 对rest_init()函数的分析
 
+源代码
+static noinline void __init_refok rest_init(void)
+{
+	int pid;
+//定义了进程的id<br>
+
+	rcu_scheduler_starting();
+	/*
+	 * We need to spawn init first so that it obtains pid 1, however
+	 * the init task will end up wanting to create kthreads, which, if
+	 * we schedule it before we create kthreadd, will OOPS.
+	 */
+	kernel_thread(kernel_init, NULL, CLONE_FS);
+	numa_default_policy();
+	pid = kernel_thread(kthreadd, NULL, CLONE_FS | CLONE_FILES);
+	rcu_read_lock();
+	kthreadd_task = find_task_by_pid_ns(pid, &init_pid_ns);
+	rcu_read_unlock();
+	complete(&kthreadd_done);
+
+	/*
+	 * The boot idle thread must execute schedule()
+	 * at least once to get things moving:
+	 */
+	init_idle_bootup_task(current);
+	schedule_preempt_disabled();
+	/* Call into cpu_idle with preempt disabled */
+	cpu_startup_entry(CPUHP_ONLINE);
+}
+
+对于kernel_thread(kernel_init, NULL, CLONE_FS)和cpu_idle(); 
+kernel_thread中传入的函数kernel_init截取部分代码：
+	if (!try_to_run_init_process("/sbin/init") ||
+	    !try_to_run_init_process("/etc/init") ||
+	    !try_to_run_init_process("/bin/init") ||
+	    !try_to_run_init_process("/bin/sh"))
+		return 0;
+  	panic("No working init found.  Try passing init= option to kernel. "
+	      "See Linux Documentation/init.txt for guidance.");
+  会尝试四种init方式，该函数定义为：
+  
+ static int try_to_run_init_process(const char *init_filename)
+{
+	int ret;
+ 
+	ret = run_init_process(init_filename);
+
+	if (ret && ret != -ENOENT) {
+		pr_err("Starting init: %s exists but couldn't execute it (error %d)\n",
+		       init_filename, ret);
+	}
+
+	return ret;
+}
+  执行了四种init文件，均失败是会给出报错信息。
+ run_init_process实际上是通过嵌入汇编构建一个类似用户态代码一样的 sys_execve()调用，其参数就是要执行的可执行文件名，也就
+是这里的 init process 在磁盘上的文件。run_init_process就是通过 do_execve()来运行 init 程序<br>
+然后cpu_idle();  将0号进程设置idle
+
+
+Linux在start_kernel执行之前都是汇编代码，在他执行后，各种环境初始化后，执行c代码。0号进程是作者手工创建的，它的任务就是在CPU的队列中没有进程的时候一直执行，在有进程的时候切换到新进程，而后被设置为空闲状态。start_kernel最后一部分是第一个用户态进程PID=1的正式生成，就是rest_init(),这个进程是系统的1号进程，这个时候0号进程会被设置成idle进程。1号进程执行，生成系统所需的所有进程，其实就是调用了run_init_process()函数加载文件，生成进程
+  
 
 
