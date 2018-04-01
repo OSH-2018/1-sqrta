@@ -37,7 +37,7 @@ file vmlinux<br>
 break start_kernel（也可设置其他断点）<br>
 target remote:1234<br>
 成功将gdb与qemu连接上，按下c可以使操作系统继续运行<br>
-由于设置断点会在中途停下来，按c可以继续，list可以查看中间运行过的函数
+由于设置断点会在中途停下来，按c可以继续，list可以查看中间运行过的函数，info register观察个寄存器的值
 
 **成功在qemu中启动內核**
 ![](https://github.com/OSH-2018/1-sqrta/blob/master/lab01/%E9%80%89%E5%8C%BA_001.png)
