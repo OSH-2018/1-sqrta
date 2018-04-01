@@ -81,12 +81,11 @@ start_kernel主要包括了 获取内核启动时的参数并进行处理，内�
 
 #### 对rest_init()函数的分析
 
-源代码
+源代码<br>
+'''
 static noinline void __init_refok rest_init(void)
 {
 	int pid;
-//定义了进程的id<br>
-
 	rcu_scheduler_starting();
 	/*
 	 * We need to spawn init first so that it obtains pid 1, however
@@ -110,9 +109,11 @@ static noinline void __init_refok rest_init(void)
 	/* Call into cpu_idle with preempt disabled */
 	cpu_startup_entry(CPUHP_ONLINE);
 }
-
+'''
 对于kernel_thread(kernel_init, NULL, CLONE_FS)和cpu_idle(); 
+
 kernel_thread中传入的函数kernel_init截取部分代码：
+\\
 	if (!try_to_run_init_process("/sbin/init") ||
 	    !try_to_run_init_process("/etc/init") ||
 	    !try_to_run_init_process("/bin/init") ||
@@ -120,6 +121,7 @@ kernel_thread中传入的函数kernel_init截取部分代码：
 		return 0;
   	panic("No working init found.  Try passing init= option to kernel. "
 	      "See Linux Documentation/init.txt for guidance.");
+  
   会尝试四种init方式，该函数定义为：
   
  static int try_to_run_init_process(const char *init_filename)
