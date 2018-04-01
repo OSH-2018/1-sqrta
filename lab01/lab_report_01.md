@@ -90,7 +90,7 @@ target remote:1234<br>
 
 **local_irq_enable();** 设置使能中断<br>
 
-**console_init();** 初始化控制台，在这之后显示printk的内容<br>
+**console_init();** 初始化控制台，在这之后可以显示printk的内容<br>
 
 start_kernel主要包括了 获取内核启动时的参数并进行处理，内核构架的初始化函数setup_arch(&command_line)，对内存管理功能的各种初始化，以及内核体系的初始化，最后是rest_init函数，这个函数内也包括了许多功能。<br>
 
