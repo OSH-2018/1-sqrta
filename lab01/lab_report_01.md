@@ -56,7 +56,8 @@ target remote:1234<br>
   **boot_init_stack_canary()** 初始化栈canary值，canary值的是用于防止栈溢出攻击的堆栈的保护字<br>
   
   **cgroup_init_early()** 对cgroup子系统的数据结构和其中链表的初始化<br>
-  对该函数的详细分析 [cgroup_init_early()](https://github.com/OSH-2018/1-sqrta/blob/master/lab01/cgroup_init.md)
+  **cgroup_init()** control group正式初始化
+  对这两个函数详细分析 [cgroup_init分析](https://github.com/OSH-2018/1-sqrta/blob/master/lab01/cgroup_init.md)
   
   **tick_init** 初始化内核的时钟系统<br>
   
